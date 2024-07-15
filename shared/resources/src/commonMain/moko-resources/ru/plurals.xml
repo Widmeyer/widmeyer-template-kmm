@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plural name="template">
+    <plural name="hours_count">
         <item quantity="zero">0 часов</item>
         <item quantity="one">%d час</item>
         <item quantity="two">%d часа</item>

@@ -5,6 +5,9 @@ compose = "1.5.4"
 compose-compiler = "1.5.4"
 compose-material3 = "1.1.2"
 androidx-activityCompose = "1.8.0"
+androidx-core-ktx = "1.13.1"
+androidx-appcompat = "1.7.0"
+androidx-activity = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -22,13 +25,20 @@ coroutinesVersion = "1.6.4"
 # ktor
 ktorClientVersion = "2.2.2"
 
+# koin
+io-koin = "3.5.0"
+
 #moko
 mokoMultiplatformPluginVersion = "0.14.2"
 mokoResourcesVersion = "0.24.0-alpha-5"
+mokoMvvmVersion = "0.16.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+activityXml = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
+coreKtx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
+appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
@@ -57,11 +67,27 @@ ktorClientLogging = { module = "io.ktor:ktor-client-logging", version.ref = "kto
 ktorClientOkHttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientVersion" }
 ktorClientMock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorClientVersion" }
 ktorClientIos = { module = "io.ktor:ktor-client-ios", version.ref = "ktorClientVersion" }
+ktorClientDarwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorClientVersion"}
+ktorClientJson = { module = "io.ktor:ktor-client-json", version.ref = "ktorClientVersion"}
+ktorClientCio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorClientVersion"}
+
+# koni
+koinCore = { module = "io.insert-koin:koin-core", version.ref = "io-koin"}
+koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "io-koin"}
 
 # moko
 mokoResources = { module = "dev.icerock.moko:resources", version.ref = "mokoResourcesVersion" }
 mokoResourcesCompose = { module = "dev.icerock.moko:resources-compose", version.ref = "mokoResourcesVersion" }
 mokoResourcesGeneratorGradle = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResourcesVersion" }
+mokoMvvmCore = { module = "dev.icerock.moko:mvvm-core", version.ref = "mokoMvvmVersion" }
+mokoMvvmFlow = { module = "dev.icerock.moko:mvvm-flow", version.ref = "mokoMvvmVersion" }
+mokoMvvmFlowCompose = { module = "dev.icerock.moko:mvvm-flow-compose", version.ref = "mokoMvvmVersion" }
+mokoMvvmLiveData = { module = "dev.icerock.moko:mvvm-livedata", version.ref = "mokoMvvmVersion" }
+mokoMvvmLiveDataResources = { module = "dev.icerock.moko:mvvm-livedata-resources", version.ref = "mokoMvvmVersion" }
+mokoMvvmLiveDataCompose = { module = "dev.icerock.moko:mvvm-livedata-compose", version.ref = "mokoMvvmVersion" }
+mokoMvvmState = { module = "dev.icerock.moko:mvvm-state", version.ref = "mokoMvvmVersion" }
+mokoMvvmViewBinding = { module = "dev.icerock.moko:mvvm-viewbinding", version.ref = "mokoMvvmVersion" }
+mokoMvvmTest = { module = "dev.icerock.moko:mvvm-test", version.ref = "mokoMvvmVersion" }
 
 
 [plugins]

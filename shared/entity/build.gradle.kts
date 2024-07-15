@@ -19,18 +19,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinSerialization)
-            //put your multiplatform dependencies here
         }
     }
-}
-
-dependencies {
-//    commonMainImplementation(projects.mppLibrary.resources)
-//    commonMainApi(libs.kotlinxDateTime)
-//    commonMainApi(libs.napier)
-//    commonMainApi(libs.kotlinSerialization)
-//    commonMainApi(libs.mokoNetwork)
-//    commonMainApi(libs.ktorClient)
 }
 
 android {

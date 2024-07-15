@@ -30,8 +30,28 @@ kotlin {
     }
     
     sourceSets {
-        commonMain.dependencies {
+        androidMain.dependencies {
+            implementation(libs.koinCore)
+            implementation(libs.koinAndroid)
+            implementation(libs.androidx.appcompat)
+            implementation(libs.androidx.core.ktx)
+            implementation(libs.material)
+            implementation(libs.ktorClientOkHttp)
+            implementation(libs.activityXml)
+            implementation(libs.activityCompose)
         }
+        commonMain.dependencies {
+            implementation(libs.ktorClient)
+            implementation(libs.ktorClientJson)
+            implementation(libs.ktorClientCio)
+            implementation(libs.kotlinxDateTime)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktorClientDarwin)
+            implementation(libs.koinCore)
+        }
+
     }
 }
 
@@ -46,15 +66,3 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
-
-//
-//val features = listOf(
-//    projects.shared.entity,
-//)
-//
-//val kSwiftModules = features + listOf(projects.shared)
-//val apiLibs = features
-//
-//dependencies {
-//    apiLibs.forEach(::commonMainApi)
-//}

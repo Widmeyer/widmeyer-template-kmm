@@ -39,12 +39,20 @@ android {
 }
 
 dependencies {
+    implementation(projects.shared)
+    implementation(projects.shared.resources)
+    implementation(projects.shared.entity)
+
     implementation(projects.androidApp.features.root)
 
-    implementation(projects.shared)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.material)
+    implementation(libs.activityXml)
+    implementation(libs.activityCompose)
+
     debugImplementation(libs.compose.ui.tooling)
 }

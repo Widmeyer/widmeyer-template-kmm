@@ -18,7 +18,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.shared.resources)
-            implementation(projects.shared.features.base)
             implementation(libs.mokoMvvmCore)
             implementation(libs.mokoMvvmFlow)
             implementation(libs.mokoMvvmLiveData)
@@ -30,7 +29,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.widmeyertemplate.features.root"
+    namespace = "com.widmeyertemplate.features.base"
     compileSdk = 34
     defaultConfig {
         minSdk = 24
