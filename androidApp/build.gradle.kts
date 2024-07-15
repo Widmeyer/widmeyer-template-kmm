@@ -42,7 +42,6 @@ dependencies {
     implementation(projects.shared)
     implementation(projects.shared.resources)
     implementation(projects.shared.entity)
-
     implementation(projects.androidApp.features.root)
 
     implementation(libs.compose.ui)

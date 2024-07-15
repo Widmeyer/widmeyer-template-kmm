@@ -17,5 +17,6 @@ buildscript {
 
     dependencies {
         classpath(libs.mokoResourcesGeneratorGradle)
+        classpath(libs.mokoNetworkGenerator)
     }
 }

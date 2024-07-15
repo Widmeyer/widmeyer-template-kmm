@@ -18,7 +18,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.shared.resources)
             implementation(libs.kotlinSerialization)
+            implementation(libs.kotlinxDateTime)
         }
     }
 }

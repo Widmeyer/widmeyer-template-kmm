@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
-
+    alias(libs.plugins.kotlinSerialization)
+    id("dev.icerock.mobile.multiplatform-network-generator")
 }
 
 kotlin {
@@ -44,14 +45,16 @@ kotlin {
             implementation(libs.ktorClient)
             implementation(libs.ktorClientJson)
             implementation(libs.ktorClientCio)
+            implementation(libs.kotlinSerialization)
             implementation(libs.kotlinxDateTime)
+            implementation(libs.mokoNetwork)
+            implementation(libs.mokoNetworkEngine)
+            implementation(libs.mokoNetworkErrors)
         }
-
         iosMain.dependencies {
             implementation(libs.ktorClientDarwin)
             implementation(libs.koinCore)
         }
-
     }
 }
 
@@ -60,9 +63,34 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 24
+        buildConfigField("int", "BRAND_ID", "1")
+        buildConfigField("int", "VERSION_CODE", "1")
+        buildConfigField("String", "VERSION_NAME", "\"1.0\"")
+        externalNativeBuild {
+            ndkBuild {
+                cppFlags += ""
+            }
+        }
     }
+
+    externalNativeBuild {
+        ndkBuild {
+            path = file("src/androidMain/kotlin/com/deliveryms/jni/Android.mk")
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
+
+//mokoNetwork {
+//    spec("serverApi") {
+//        inputSpec = file("src/api/openapi.yml")
+//    }
+//}
