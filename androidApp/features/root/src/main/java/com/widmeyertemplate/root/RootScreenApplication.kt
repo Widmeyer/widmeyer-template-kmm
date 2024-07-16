@@ -1,18 +1,12 @@
 package com.widmeyertemplate.root
 
 import android.app.Application
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.window.SplashScreen
 import com.widmeyertemplate.di.startKoin
 import com.widmeyertemplate.root.enum.Screen
 import com.widmeyertemplate.root.presentation.RootViewModel
 import org.koin.android.ext.android.getKoin
-import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.logger.Level
@@ -34,9 +28,12 @@ class RootScreenApplication: Application() {
             if (value == null) return@addObserver
 
             val intent = when (value) {
-                Screen.MAIN -> Intent(this, MainActivity::class.java)
-                Screen.SETTINGS -> Intent(this, SettingsActivity::class.java)
-                else -> return@addObserver
+                Screen.SPLASH -> Intent(this, SplashScreen::class.java)
+                //Screen.MAIN -> Intent(this, MainActivity::class.java)
+                else -> {
+                    Log("RootScreen", "Screen $value not opened")
+                    return@addObserver
+                }
             }
 
             intent.putStringArrayListExtra("arguments", ArrayList(viewModel.arguments))

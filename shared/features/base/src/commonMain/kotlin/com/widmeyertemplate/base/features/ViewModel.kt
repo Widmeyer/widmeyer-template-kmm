@@ -1,6 +1,6 @@
-package com.widmeyertemplate.base
+package com.widmeyertemplate.base.features
 
-import com.widmeyertemplate.base.enum.StateScreen
+import com.widmeyertemplate.base.features.enum.StateScreen
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

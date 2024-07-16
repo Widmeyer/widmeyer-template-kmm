@@ -1,4 +1,4 @@
-package com.widmeyertemplate.di
+package com.widmeyertemplate.root.di
 
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier

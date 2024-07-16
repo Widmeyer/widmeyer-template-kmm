@@ -1,8 +1,8 @@
 package com.widmeyertemplate.root.presentation
 
-import com.widmeyertemplate.base.LiveData
-import com.widmeyertemplate.base.ViewModel
-import com.widmeyertemplate.root.enum.Screen
+import com.widmeyertemplate.base.features.LiveData
+import com.widmeyertemplate.base.features.ViewModel
+import com.widmeyertemplate.base.features.enum.Screen
 
 class RootViewModel: ViewModel() {
     val screen: LiveData<Screen?> = LiveData(null)

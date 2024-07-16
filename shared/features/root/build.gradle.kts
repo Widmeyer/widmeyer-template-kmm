@@ -17,8 +17,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.shared)
             implementation(projects.shared.resources)
             implementation(projects.shared.features.base)
+            implementation(projects.shared.features.splash)
             implementation(libs.mokoMvvmCore)
             implementation(libs.mokoMvvmFlow)
             implementation(libs.mokoMvvmLiveData)
@@ -26,6 +28,18 @@ kotlin {
             implementation(libs.ktorClientJson)
             implementation(libs.ktorClientCio)
             implementation(libs.koinCore)
+            implementation(libs.multiplatformSettings)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.koinCore)
+            implementation(libs.koinAndroid)
+            implementation(libs.multiplatformSettings)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.koinCore)
+            implementation(libs.multiplatformSettings)
         }
     }
 }

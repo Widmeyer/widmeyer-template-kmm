@@ -1,4 +1,4 @@
-package com.widmeyertemplate.base
+package com.widmeyertemplate.base.features
 
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.livedata.LiveData

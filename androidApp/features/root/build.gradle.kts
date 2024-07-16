@@ -31,11 +31,28 @@ android {
     }
 }
 
+val featureModules = listOf(
+    projects.androidApp.features.screen.splash,
+)
+
+val sharedModules = listOf(
+    projects.shared.features.root,
+    projects.shared.features.base,
+    projects.shared,
+)
+
 dependencies {
-    implementation(projects.shared.features.root)
-    implementation(projects.shared.features.base)
-    implementation(projects.androidApp.features.screen)
-    implementation(projects.shared)
+    featureModules.forEach { module ->
+        implementation(module)
+    }
+
+    sharedModules.forEach { module ->
+        implementation(module)
+    }
+
+    implementation(libs.mokoMvvmCore)
+    implementation(libs.mokoMvvmFlow)
+    implementation(libs.mokoMvvmLiveData)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -42,7 +42,7 @@ kotlin {
             implementation(libs.activityCompose)
         }
         commonMain.dependencies {
-            implementation(projects.shared.features.root)
+            implementation(projects.shared.entity)
             implementation(libs.ktorClient)
             implementation(libs.ktorClientJson)
             implementation(libs.ktorClientCio)
@@ -52,6 +52,7 @@ kotlin {
             implementation(libs.mokoNetworkEngine)
             implementation(libs.mokoNetworkErrors)
             implementation(libs.koinCore)
+            implementation(libs.multiplatformSettings)
         }
         iosMain.dependencies {
             implementation(libs.ktorClientDarwin)
@@ -77,7 +78,7 @@ android {
 
     externalNativeBuild {
         ndkBuild {
-            path = file("src/androidMain/kotlin/com/deliveryms/jni/Android.mk")
+            path = file("src/androidMain/kotlin/com/widmeyertemplate/jni/Android.mk")
         }
     }
 

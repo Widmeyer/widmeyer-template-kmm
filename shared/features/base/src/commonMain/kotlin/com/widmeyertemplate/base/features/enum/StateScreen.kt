@@ -1,4 +1,4 @@
-package com.widmeyertemplate.base.enum
+package com.widmeyertemplate.base.features.enum
 
 enum class StateScreen {
     DEFAULT,
