@@ -42,6 +42,7 @@ kotlin {
             implementation(libs.activityCompose)
         }
         commonMain.dependencies {
+            implementation(projects.shared.features.root)
             implementation(libs.ktorClient)
             implementation(libs.ktorClientJson)
             implementation(libs.ktorClientCio)
@@ -50,6 +51,7 @@ kotlin {
             implementation(libs.mokoNetwork)
             implementation(libs.mokoNetworkEngine)
             implementation(libs.mokoNetworkErrors)
+            implementation(libs.koinCore)
         }
         iosMain.dependencies {
             implementation(libs.ktorClientDarwin)
@@ -94,3 +96,5 @@ android {
 //        inputSpec = file("src/api/openapi.yml")
 //    }
 //}
+
+

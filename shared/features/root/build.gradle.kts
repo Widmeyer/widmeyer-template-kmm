@@ -25,6 +25,7 @@ kotlin {
             implementation(libs.ktorClient)
             implementation(libs.ktorClientJson)
             implementation(libs.ktorClientCio)
+            implementation(libs.koinCore)
         }
     }
 }

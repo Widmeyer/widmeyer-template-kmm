@@ -32,8 +32,13 @@ android {
 }
 
 dependencies {
+    implementation(projects.shared.features.root)
+    implementation(projects.shared.features.base)
     implementation(projects.androidApp.features.screen)
+    implementation(projects.shared)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.koinCore)
+    implementation(libs.koinAndroid)
 }
