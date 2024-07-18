@@ -38,6 +38,7 @@ val featureModules = listOf(
 val sharedModules = listOf(
     projects.shared.features.root,
     projects.shared.features.base,
+    projects.shared.entity,
     projects.shared,
 )
 

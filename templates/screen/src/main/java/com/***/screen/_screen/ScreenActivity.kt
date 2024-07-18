@@ -1,21 +1,13 @@
-package com.deliveryms.screen.splash
+package com.widmeyertemplate.screen._screen
 
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.deliveryms.domain.constants.Constants
-import com.deliveryms.entity.enums.CourierStatus
-import com.deliveryms.features.base.enum.Screen
-import com.deliveryms.features.root.presentation.RootViewModel
-import com.deliveryms.features.splash.presentation.SplashViewModel
-import com.deliveryms.ui.DialogError
-import com.deliveryms.ui.R as A
-import com.deliveryms.screen.splash.R as R
-import org.koin.android.ext.android.inject
+import com.widmeyertemplate.ui.R as A
+import com.widmeyertemplate.screen._screen.R as R
 
-@SuppressLint("CustomSplashScreen")
 class ScreenActivity: AppCompatActivity() {
     private val viewModel: SplashViewModel by inject()
     private val rootViewModel: RootViewModel by inject()

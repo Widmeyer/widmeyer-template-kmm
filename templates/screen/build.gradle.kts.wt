@@ -36,7 +36,7 @@ dependencies {
     implementation(projects.shared.entity)
     implementation(projects.shared.features.base)
     // TODO: Replace 'splash' for KMM
-    //  implementation(projects.shared.features.splash)
+    //  implementation(projects.shared.features.***)
     implementation(projects.shared.features.root)
     implementation(projects.androidApp.ui)
     implementation(libs.koinCore)

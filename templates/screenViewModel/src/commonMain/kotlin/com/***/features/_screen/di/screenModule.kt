@@ -1,6 +1,6 @@
-package com.deliveryms.features.screen.di
+package com.***.features._screen.di
 
-import com.deliveryms.features.splash.presentation.SplashViewModel
+import com.***.features._screen.presentation.ScreehViewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
