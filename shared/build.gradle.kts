@@ -66,7 +66,6 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 24
-        buildConfigField("int", "BRAND_ID", "1")
         buildConfigField("int", "VERSION_CODE", "1")
         buildConfigField("String", "VERSION_NAME", "\"1.0\"")
         externalNativeBuild {

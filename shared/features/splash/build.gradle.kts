@@ -26,8 +26,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.androidx.core)
-            implementation(libs.appCompat)
             implementation(projects.shared)
             implementation(projects.shared.entity)
             implementation(projects.shared.resources)

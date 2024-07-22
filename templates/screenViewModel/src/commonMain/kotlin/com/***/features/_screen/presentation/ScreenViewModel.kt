@@ -1,7 +1,7 @@
 package com.***.features.screen.presentation
 
-import com.deliveryms.features.base.LiveData
-import com.deliveryms.features.base.ViewModel
+import com.widmeyertemplate.features.base.LiveData
+import com.widmeyertemplate.features.base.ViewModel
 class ScreenViewModel(): ViewModel() {
     init {
     }
