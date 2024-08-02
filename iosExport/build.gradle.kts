@@ -12,9 +12,6 @@ val features = listOf(
     projects.shared.resources,
     projects.shared.features.splash,
     projects.shared.features.root,
-    projects.shared.features.main,
-    projects.shared.features.order.page,
-    projects.shared.features.order.delivery,
     projects.shared.features.base,
 )
 
@@ -24,6 +21,7 @@ val apiLibs = listOf(
     libs.mokoMvvmCore,
     libs.mokoMvvmFlow,
     libs.mokoMvvmLiveData,
+    libs.mokoGraphics,
     libs.mokoNetwork,
     libs.mokoNetworkEngine,
     libs.mokoNetworkErrors,
@@ -67,6 +65,10 @@ kotlin {
         commonMain.dependencies {
             features.forEach { api(it) }
             apiLibs.forEach { api(it) }
+        }
+
+        iosMain.dependencies {
+            apiLibs.forEach(::implementation)
         }
     }
 }

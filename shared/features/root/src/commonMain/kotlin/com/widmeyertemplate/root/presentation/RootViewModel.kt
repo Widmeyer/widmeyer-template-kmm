@@ -6,6 +6,7 @@ import com.widmeyertemplate.base.features.enum.Screen
 
 class RootViewModel: ViewModel() {
     val screen: LiveData<Screen?> = LiveData(null)
+    private val openScreens: MutableList<Screen> = mutableListOf()
     var arguments: List<String> = emptyList()
         private set
     var isClearStack: Boolean = false
@@ -19,7 +20,26 @@ class RootViewModel: ViewModel() {
         }
 
         isClearStack = isClear
+
+        if (isClear) {
+            openScreens.clear()
+        }
+
+        openScreens.add(screen)
+
         arguments = argumentsJson
         this.screen.update(screen)
+    }
+
+    public fun finishScreen() {
+        this.screen.update(null)
+    }
+
+    public fun removeLast() {
+        openScreens.removeLast()
+    }
+
+    fun areThereOtherOpenScreens(): Boolean {
+        return openScreens.size > 1
     }
 }
