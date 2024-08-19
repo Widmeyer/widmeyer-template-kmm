@@ -1,7 +1,9 @@
 package com.widmeyertemplate.root
 
+import android.app.Activity
 import android.app.Application
 import android.content.Intent
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.widmeyertemplate.base.features.enum.Screen
 import com.widmeyertemplate.data.utils.Log
@@ -15,7 +17,7 @@ import org.koin.core.logger.Level
 
 class RootScreenApplication: Application() {
     private lateinit var viewModel: RootViewModel
-    private var currentScreen: AppCompatActivity = SplashScreen()
+    private var currentScreen: AppCompatActivity? = SplashScreen()
 
     override fun onCreate() {
         super.onCreate()
@@ -27,16 +29,40 @@ class RootScreenApplication: Application() {
 
         viewModel = getKoin().get()
 
+        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                if (activity is AppCompatActivity) {
+                    currentScreen = activity
+                }
+            }
+
+            override fun onActivityStarted(activity: Activity) {}
+            override fun onActivityResumed(activity: Activity) {
+                if (activity is AppCompatActivity) {
+                    currentScreen = activity
+                }
+            }
+
+            override fun onActivityPaused(activity: Activity) {}
+            override fun onActivityStopped(activity: Activity) {}
+            override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+            override fun onActivityDestroyed(activity: Activity) {
+                if (currentScreen == activity) {
+                    currentScreen = null
+                }
+            }
+        })
+
         viewModel.screen.addObserver { value ->
             if (value == null) {
                 if (viewModel.areThereOtherOpenScreens()) {
-                    currentScreen.finish()
+                    currentScreen?.finish()
                     viewModel.removeLast()
                 }
                 return@addObserver
             }
 
-            currentScreen = when (value) {
+            val newScreen = when (value) {
                 Screen.SPLASH -> SplashScreen()
                 else -> {
                     Log("RootScreen", "Screen $value not opened")
@@ -44,7 +70,7 @@ class RootScreenApplication: Application() {
                 }
             }
 
-            val intent = Intent(applicationContext, currentScreen::class.java)
+            val intent = Intent(applicationContext, newScreen::class.java)
 
             intent.putStringArrayListExtra("arguments", ArrayList(viewModel.arguments))
             intent.putExtra("isClearStack", viewModel.isClearStack)
