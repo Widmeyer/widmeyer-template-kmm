@@ -1,16 +1,17 @@
 package com.widmeyertemplate.root.presentation
 
-import com.widmeyertemplate.base.features.LiveData
+import com.widmeyertemplate.base.features.StateFlow
 import com.widmeyertemplate.base.features.ViewModel
 import com.widmeyertemplate.base.features.enum.Screen
 
 class RootViewModel: ViewModel() {
-    val screen: LiveData<Screen?> = LiveData(null)
-    private val openScreens: MutableList<Screen> = mutableListOf()
+    val screen: StateFlow<Screen?> = StateFlow(null)
     var arguments: List<String> = emptyList()
         private set
     var isClearStack: Boolean = false
         private set
+
+    private val openScreens: MutableList<Screen> = mutableListOf()
 
     public fun updateScreen(screen: Screen, argumentsJson: List<String> = emptyList(), isClear: Boolean) {
         val currentScreen = this.screen.getValue()

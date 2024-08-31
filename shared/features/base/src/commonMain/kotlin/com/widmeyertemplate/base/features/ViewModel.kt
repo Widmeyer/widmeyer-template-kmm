@@ -6,11 +6,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+
 abstract class ViewModel(): ViewModel() {
     protected var isInitialized: Boolean = false
         private set
 
-    val stateScreen: LiveData<StateScreen> = LiveData(StateScreen.DEFAULT)
+    val stateScreen: StateFlow<StateScreen> = StateFlow(StateScreen.DEFAULT)
 
     open fun doInitialize() {
         if (isInitialized) {

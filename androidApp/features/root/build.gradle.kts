@@ -1,11 +1,16 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.composeCompiler)
 }
 
 android {
     namespace = "com.widmeyertemplate.features.root"
     compileSdk = 34
+
+    buildFeatures {
+        compose = true
+    }
 
     defaultConfig {
         minSdk = 24
@@ -56,6 +61,7 @@ dependencies {
     implementation(libs.mokoMvvmLiveData)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.compose.navigation)
     implementation(libs.material)
     implementation(libs.koinCore)
     implementation(libs.koinAndroid)

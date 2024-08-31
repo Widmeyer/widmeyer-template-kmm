@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.composeCompiler)
 }
 
 android {
@@ -11,6 +12,10 @@ android {
         minSdk = 24
 
         consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        compose = true
     }
 
     buildTypes {
@@ -33,18 +38,24 @@ android {
 
 dependencies {
     implementation(projects.shared)
+    implementation(projects.shared.resources)
     implementation(projects.shared.entity)
     implementation(projects.shared.features.base)
     implementation(projects.shared.features.splash)
     implementation(projects.shared.features.root)
     implementation(projects.androidApp.ui)
+
     implementation(libs.koinCore)
     implementation(libs.koinAndroid)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     implementation(libs.mokoNetworkErrors)
     implementation(libs.mokoMvvmCore)
     implementation(libs.mokoMvvmFlow)
     implementation(libs.mokoMvvmLiveData)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.material3)
 }

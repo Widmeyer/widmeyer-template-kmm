@@ -4,6 +4,4 @@ enum class Screen {
     SPLASH,
     AUTHORIZATION,
     MAIN,
-    ORDER,
-    DELIVERY,
 }
