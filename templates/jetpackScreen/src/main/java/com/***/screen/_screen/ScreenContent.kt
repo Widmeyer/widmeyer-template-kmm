@@ -32,7 +32,7 @@ fun ScreenContent() {
 }
 
 @Composable
-internal fun ScreenContentPreview() {
+internal fun ScreenContent_Preview() {
     MainTheme {
         ScreenContent()
     }
