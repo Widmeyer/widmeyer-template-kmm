@@ -1,7 +1,15 @@
 package com.widmeyertemplate.base.features.enum
 
 enum class Screen {
-    SPLASH,
-    AUTHORIZATION,
-    MAIN,
+    SPLASH {
+        override fun toString() = "splash"
+    },
+    AUTHORIZATION {
+        override fun toString() = "authorization"
+    },
+    MAIN {
+        override fun toString() = "main"
+    };
+
+    abstract override fun toString(): String
 }

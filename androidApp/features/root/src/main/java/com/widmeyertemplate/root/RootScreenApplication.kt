@@ -56,37 +56,33 @@ fun RootApp(viewModel: RootViewModel) {
     val screen by viewModel.screen.state.collectAsState()
 
     LaunchedEffect(screen) {
-        when {
-            screen != null -> {
-                val currentDestination = navController.currentBackStackEntry?.destination?.route
+        val currentDestination = navController.currentBackStackEntry?.destination?.route
+        if (currentDestination != Screen.SPLASH.toString() && screen == null) {
+            navController.popBackStack()
+            return@LaunchedEffect
+        }
+        val destination = screen?.toString()
 
-                val destination = when (screen) {
-                    Screen.SPLASH -> "splash"
-                    Screen.AUTHORIZATION -> "authorization"
-                    Screen.MAIN -> "main"
-                    else -> {
-                        Log("RootApp", "Screen $screen not opened", errorType = ErrorType.ERROR)
-                        return@LaunchedEffect
+        if (destination == null) {
+            Log("RootApp", "Screen $screen not opened", errorType = ErrorType.ERROR)
+            return@LaunchedEffect
+        }
+
+        if (currentDestination != destination) {
+            if (viewModel.isClearStack) {
+                navController.navigate(destination) {
+                    popUpTo(navController.graph.startDestinationId) {
+                        inclusive = true
                     }
                 }
-
-                if (currentDestination != destination) {
-                    if (viewModel.isClearStack) {
-                        navController.navigate(destination) {
-                            popUpTo(navController.graph.startDestinationId) {
-                                inclusive = true
-                            }
-                        }
-                    } else {
-                        navController.navigate(destination)
-                    }
-                }
+            } else {
+                navController.navigate(destination)
             }
         }
     }
 
-    NavHost(navController = navController, startDestination = "splash") {
-        composable("splash") {
+    NavHost(navController = navController, startDestination = Screen.SPLASH.toString()) {
+        composable(Screen.SPLASH.toString()) {
             SplashScreen()
         }
 //        composable("authorization") { AuthorizationScreen() }
