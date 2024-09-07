@@ -11,13 +11,13 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.sp
 
 @Immutable
-data class Typography(val mainTextFont: FontFamily) {
+data class Typography(private val mainTextFont: FontFamily) {
     val text: TitleTypography = TitleTypography(mainTextFont)
 }
 
 @Immutable
 data class TitleTypography(
-    val mainTextFont: FontFamily,
+    private val mainTextFont: FontFamily,
 ) {
     val title: TextStyle = TextStyle(
         fontSize = 22.sp,
@@ -42,13 +42,6 @@ data class TitleTypography(
 
     val inputText: TextStyle = TextStyle(
         fontSize = 16.sp,
-        lineHeight = 28.sp,
-        fontFamily = mainTextFont,
-        fontWeight = FontWeight.W400
-    ).preciseLineHeight()
-
-    val hintTextLow: TextStyle = TextStyle(
-        fontSize = 14.sp,
         lineHeight = 28.sp,
         fontFamily = mainTextFont,
         fontWeight = FontWeight.W400
