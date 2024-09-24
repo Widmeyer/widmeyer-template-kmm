@@ -1,4 +1,4 @@
-package com.widmeyertemplate.screen.screen
+package com.widmeyertemplate.screen.***
 
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable

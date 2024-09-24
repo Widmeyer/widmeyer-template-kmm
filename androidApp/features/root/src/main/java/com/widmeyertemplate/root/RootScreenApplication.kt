@@ -3,6 +3,7 @@ package com.widmeyertemplate.root
 import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -84,8 +85,15 @@ fun RootApp(viewModel: RootViewModel) {
     NavHost(navController = navController, startDestination = Screen.SPLASH.toString()) {
         composable(Screen.SPLASH.toString()) {
             SplashScreen()
+            BackHandler(true) {}
         }
-//        composable("authorization") { AuthorizationScreen() }
-//        composable("main") { MainScreen() }
+     /*   composable(Screen.AUTHORIZATION.toString()) {
+            AuthorizationScreen()
+            BackHandler(true) {}
+        }
+        composable(Screen.MAIN.toString()) {
+            MainScreen()
+            BackHandler(true) {}
+        }*/
     }
 }

@@ -14,8 +14,9 @@ include(":androidApp:features:screen:*название_модуля*")
 ~~~
 6. Добавить в Android Manifest вашего Android проекта экран
 7. Добавить в build gradle вашего Android проекта экран
-8. Добавить в модуль root, а именно в RootScreenApplication переход к созданному экрану
-9. Изменить название файла res/layout/activity_screen на название вашего экрана. Пример:
+8. Добавить в модуль base, в файл Screen.kt название вашего экрана, например, AUTHORIZATION
+9. Добавить в модуль root, а именно в RootScreenApplication переход к созданному экрану
+10. Изменить название файла res/layout/activity_screen на название вашего экрана. Пример:
 ~~~bash
 с res/layout/activity_screen
 на res/layout/activity_splash

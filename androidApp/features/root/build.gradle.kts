@@ -14,19 +14,8 @@ android {
 
     defaultConfig {
         minSdk = 24
-
-        consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -60,7 +49,6 @@ dependencies {
     implementation(libs.mokoMvvmFlow)
     implementation(libs.mokoMvvmLiveData)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
     implementation(libs.compose.navigation)
     implementation(libs.material)
     implementation(libs.koinCore)
