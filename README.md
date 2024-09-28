@@ -1,3 +1,4 @@
+
 # Widmeyer Template Project
 
 Основные элементы архитектуры разделены на модули и папки, каждая из которых выполняет определённые функции.
@@ -12,6 +13,19 @@
 
 ## Структура проекта
 ![Архитектура drawio](https://github.com/user-attachments/assets/adab02e3-3c4c-4275-b553-56184033230c)
+
+## update_colors.sh и update_strings.sh
+Файлы автоматического внедрение ресурсов в проект. Для запуска необходимо прописать в терминале ./***.sh
+### update_strings.sh
+При добавлении новой строки в shared/resources/moko-resources/base автоматически строковые значения добавляются в папку:
+- androidApp/ui/res/values/strings.xml 
+- shared/resources/moko-resources/ru/strings.xml 
+- shared/resources/moko-resources/en/strings.xml (необходимо удалить из .sh скрипта, если нет локализации. Если есть, то необходимо перевести на соответствующий язык)
+### update_colors.sh
+При добавлении новой строки в shared/resources/moko-resources/colors автоматически цветовые значения добавляются в папку:
+- androidApp/ui/res/values/colors.xml 
+- androidApp/ui/Colors.kt (включая Light и Dark режим)
+- iosApp/Resources/Colors (не реализовано)
 
 ### Android App
 - **BuildGradle**: файл сборки для Android-приложения.
