@@ -1,7 +1,7 @@
 package com.widmeyertemplate.domain.constants
 
 object TransferArguments {
-    private val tag = "widmeyerTemplate"
+    private val tag = "widmeyertemplate"
 
     /**
      * to INT

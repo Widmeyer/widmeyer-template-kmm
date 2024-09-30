@@ -1,4 +1,4 @@
-package com.***.features.screen.presentation
+package com.widmeyertemplate.features.screen.presentation
 
 import com.widmeyertemplate.base.features.StateFlow
 import com.widmeyertemplate.base.features.ViewModel

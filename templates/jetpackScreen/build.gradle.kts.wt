@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.***.screen.***"
+    namespace = "com.widmeyertemplate.screen.***"
     compileSdk = 34
 
     defaultConfig {
