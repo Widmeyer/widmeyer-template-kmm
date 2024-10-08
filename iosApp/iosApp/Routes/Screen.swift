@@ -6,14 +6,14 @@ extension iosExport.Screen {
     func view() -> some View {
         
         switch self {
-//        case iosExport.Screen.authorization:
-//            SplashScreen()AuthorizationScreen()
-//        case iosExport.Screen.main:
-//            MainScreen()
+        case iosExport.Screen.authorization:
+            ZStack {} //  AuthorizationScreen()
+        case iosExport.Screen.main:
+            ZStack {} //MainScreen()
         case iosExport.Screen.splash:
-            ZStack {} // TODO: Change Screen
+            ZStack {} //SplashScreen()
         default:
-            ZStack {} // TODO: Change Screen
+            ZStack {} //AuthorizationScreen()
         }
     }
 }

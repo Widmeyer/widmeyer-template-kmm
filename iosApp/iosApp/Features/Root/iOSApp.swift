@@ -1,15 +1,18 @@
 import SwiftUI
-
+import iosExport
 
 @main
 struct iOSApp: App {
-    @StateObject private var viewModel = RootViewModelWrapper()
+    @StateObject private var viewModel: RootViewModelWrapper
+    @State private var currentScreen: AnyView
     @State private var navigationPath = NavigationPath()
-    @State private var isModalActive = false
-    @State private var currentScreen: AnyView = AnyView(SplashScreen())
+    
+    init() {
+        InitKoinKt.startKoin(koinAppDeclaration: { _ in })
 
-    static var isModal: Bool = false
-
+        _viewModel = StateObject(wrappedValue: RootViewModelWrapper())
+        currentScreen = AnyView(ZStack {})//AnyView(SplashScreen())
+    }
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $navigationPath) {
@@ -18,7 +21,7 @@ struct iOSApp: App {
                         .transition(.customSlide)
                         .animation(.easeInOut, value: UUID())
                 }
-
+                
                 .onChange(of: viewModel.screen) { oldState, newState in
                     withAnimation {
                         handleScreenChange(oldScreen: oldState, newScreen: newState)
@@ -28,40 +31,14 @@ struct iOSApp: App {
                     screen.view()
                         .navigationBarBackButtonHidden(true)
                 }
-                .onAppear() {
-                    viewModel.screen = Screen.splash
-                }
+                
             }
         }
     }
-
+    
     private func handleScreenChange(oldScreen: iosExport.Screen?, newScreen: iosExport.Screen?) {
         if let screen = newScreen {
-            if iOSApp.isModal {
-                iOSApp.isModal = false
-
-                if let oldScreen = oldScreen {
-                    currentScreen = AnyView(
-                        screen.view()
-                            .sheet(isPresented: .constant(true)) {
-                                screen.view()
-                            }
-                    )
-                } else {
-                    isModalActive = true
-
-                    currentScreen = AnyView(
-                        ZStack {}
-                            .sheet(isPresented: $isModalActive) {
-                                screen.view()
-                                    .onDisappear {
-                                        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-
-                                    }
-                            }
-                    )
-                }
-            } else if viewModel.isClearStack {
+           if viewModel.isClearStack {
                 let newView = screen.view()
                 currentScreen = AnyView(newView)
                 navigationPath = NavigationPath()
