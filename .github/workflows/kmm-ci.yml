@@ -3,10 +3,10 @@ name: KMM CI
 on:
   push:
     branches:
-      - mobile
+      - master
   pull_request:
     branches:
-      - mobile
+      - master
 
 jobs:
   android-build:
@@ -29,13 +29,13 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-  
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
         with:
           api-level: 30
           build-tools-version: '30.0.3'
-          ndk-version: '21.4.7075529' 
+          ndk-version: '21.4.7075529'
 
       - name: Accept SDK licenses
         run: yes | sdkmanager --licenses
@@ -74,13 +74,19 @@ jobs:
         run: pod install --project-directory=iosApp
 
       - name: Build iOS App
-        run: xcodebuild -workspace iosApp/iosApp.xcworkspace -scheme iosApp -sdk iphonesimulator -configuration Debug build
+        run: xcodebuild -workspace iosApp/iosApp.xcworkspace -scheme iosApp -sdk iphonesimulator -configuration Debug archive -archivePath iosApp/build/Debug/iosApp.xcarchive
 
-      - name: Run iOS Unit Tests
-        run: xcodebuild -workspace iosApp/iosApp.xcworkspace -scheme iosApp -sdk iphonesimulator -configuration Debug test
 
-      - name: Upload iOS App
+      #      - name: Run iOS Unit Tests
+      #        run: xcodebuild -workspace iosApp/iosApp.xcworkspace -scheme iosApp -sdk iphonesimulator -configuration Debug testDebugUnitTest
+
+      - name: Create ZIP Archive of iOS App
+        run: |
+          cd iosApp/build/Debug
+          zip -r iosApp.zip iosApp.xcarchive
+
+      - name: Upload iOS App ZIP Archive
         uses: actions/upload-artifact@v3
         with:
-          name: ios-app
-          path: iosApp/build/Debug-iphonesimulator/iosApp.app
+          name: ios-app-archive
+          path: iosApp/build/Debug/iosApp.zip

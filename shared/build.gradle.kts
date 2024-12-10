@@ -91,10 +91,11 @@ android {
     }
 }
 
-//mokoNetwork {
-//    spec("serverApi") {
-//        inputSpec = file("src/api/openapi.yml")
-//    }
-//}
+/* mokoNetwork {
+    spec("serverApi") {
+        inputSpec = file("src/api/openapi.yml")
+        isInternal = false
+    }
+} */
 
 
