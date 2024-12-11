@@ -1,4 +1,4 @@
-package com.widmeyertemlpate.features.screen.***
+package com.widmeyertemplate.features.screen.***
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
