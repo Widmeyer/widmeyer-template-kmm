@@ -6,11 +6,26 @@ plugins {
 
 android {
     namespace = "com.widmeyertemplate.android"
-    compileSdk = 34
+    compileSdk = 35
+
+    flavorDimensions.add(0, "jni")
+
+    productFlavors {
+        create("dev") {
+            dimension = "jni"
+            matchingFallbacks.add("dev")
+        }
+
+        create("prod") {
+            dimension = "jni"
+            matchingFallbacks.add("prod")
+        }
+    }
+
     defaultConfig {
         applicationId = "com.widmeyertemplate.android"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = 26
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
@@ -23,12 +38,14 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
@@ -46,19 +63,15 @@ android {
 }
 
 dependencies {
-    implementation(projects.shared)
+    implementation(projects.shared.core)
     implementation(projects.shared.resources)
     implementation(projects.shared.entity)
     implementation(projects.androidApp.features.root)
     implementation(projects.androidApp.features.screen.splash)
 
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
-    implementation(libs.activityXml)
-    implementation(libs.activityCompose)
+    implementation(libs.bundles.android)
+    implementation(libs.bundles.compose)
 
-    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.tooling.preview)
 }

@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -26,20 +25,17 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.shared)
+            implementation(projects.shared.core)
             implementation(projects.shared.entity)
+            implementation(projects.shared.network)
             implementation(projects.shared.resources)
             implementation(projects.shared.features.base)
-            implementation(libs.mokoMvvmCore)
-            implementation(libs.mokoMvvmFlow)
-            implementation(libs.mokoMvvmLiveData)
-            implementation(libs.ktorClient)
-            implementation(libs.ktorClientJson)
-            implementation(libs.ktorClientCio)
+
+            implementation(libs.bundles.moko.mvvm)
+            implementation(libs.bundles.moko.network)
+            implementation(libs.bundles.ktor)
             implementation(libs.koinCore)
-            implementation(libs.mokoNetwork)
-            implementation(libs.mokoNetworkErrors)
-            implementation(libs.mokoNetworkEngine)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -49,10 +45,25 @@ kotlin {
 
 android {
     namespace = "com.widmeyertemplate.features.splash"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
     }
+
+    flavorDimensions.add(0, "jni")
+
+    productFlavors {
+        create("dev") {
+            dimension = "jni"
+            matchingFallbacks.add("dev")
+        }
+
+        create("prod") {
+            dimension = "jni"
+            matchingFallbacks.add("prod")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

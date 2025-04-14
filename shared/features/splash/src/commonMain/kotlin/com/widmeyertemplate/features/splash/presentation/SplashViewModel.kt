@@ -1,10 +1,13 @@
 package com.widmeyertemplate.features.splash.presentation
 
-import com.widmeyertemplate.base.features.StateFlow
-import com.widmeyertemplate.base.features.ViewModel
-import com.widmeyertemplate.data.model.ConfigParams
+import com.widmeyertemplate.base.features.domain.StateFlow
+import com.widmeyertemplate.base.features.domain.ViewModel
+import com.widmeyertemplate.features.splash.domain.SplashRepository
 
-
-class SplashViewModel(val configParams: ConfigParams): ViewModel() {
+class SplashViewModel(private val splashRepository: SplashRepository): ViewModel() {
     val errorText: StateFlow<String?> = StateFlow(null)
+
+    public fun clearErrorText() {
+        errorText.update(null)
+    }
 }

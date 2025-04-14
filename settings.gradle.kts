@@ -16,13 +16,15 @@ dependencyResolutionManagement {
 
 rootProject.name = "WidmeyerTemplate"
 include(":androidApp")
-include(":androidApp:features")
 include(":androidApp:ui")
+include(":androidApp:features")
 include(":androidApp:features:root")
 include(":androidApp:features:screen:splash")
 include(":shared")
 include(":shared:entity")
 include(":shared:resources")
+include(":shared:core")
+include(":shared:network")
 include(":shared:features:root")
 include(":shared:features:base")
 include(":shared:features:splash")

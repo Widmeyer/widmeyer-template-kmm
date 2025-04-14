@@ -13,9 +13,9 @@ kotlin {
         }
     }
     listOf(
-    iosX64(),
-    iosArm64(),
-    iosSimulatorArm64(),
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
             baseName = "root"
@@ -25,17 +25,16 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.shared)
+            implementation(projects.shared.core)
             implementation(projects.shared.entity)
+            implementation(projects.shared.network)
             implementation(projects.shared.resources)
             implementation(projects.shared.features.base)
             implementation(projects.shared.features.splash)
-            implementation(libs.mokoMvvmCore)
-            implementation(libs.mokoMvvmFlow)
-            implementation(libs.mokoMvvmLiveData)
-            implementation(libs.ktorClient)
-            implementation(libs.ktorClientJson)
-            implementation(libs.ktorClientCio)
+
+            implementation(libs.bundles.moko.mvvm)
+            implementation(libs.bundles.moko.network)
+            implementation(libs.bundles.ktor)
             implementation(libs.koinCore)
             implementation(libs.multiplatformSettings)
         }
@@ -44,7 +43,8 @@ kotlin {
             implementation(libs.koinCore)
             implementation(libs.koinAndroid)
             implementation(libs.multiplatformSettings)
-            implementation(libs.gmsPlayServiceLocation)
+            implementation(libs.kotlinSerialization)
+
         }
 
         iosMain.dependencies {
@@ -56,10 +56,25 @@ kotlin {
 
 android {
     namespace = "com.widmeyertemplate.features.root"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
     }
+
+    flavorDimensions.add(0, "jni")
+
+    productFlavors {
+        create("dev") {
+            dimension = "jni"
+            matchingFallbacks.add("dev")
+        }
+
+        create("prod") {
+            dimension = "jni"
+            matchingFallbacks.add("prod")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

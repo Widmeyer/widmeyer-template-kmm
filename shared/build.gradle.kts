@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    id("dev.icerock.mobile.multiplatform-network-generator")
 }
 
 kotlin {
@@ -29,60 +28,14 @@ kotlin {
             isStatic = true
         }
     }
-    
-    sourceSets {
-        androidMain.dependencies {
-            implementation(libs.koinCore)
-            implementation(libs.koinAndroid)
-            implementation(libs.androidx.appcompat)
-            implementation(libs.androidx.core.ktx)
-            implementation(libs.material)
-            implementation(libs.ktorClientOkHttp)
-            implementation(libs.activityXml)
-            implementation(libs.activityCompose)
-        }
-        commonMain.dependencies {
-            implementation(projects.shared.entity)
-            implementation(libs.ktorClient)
-            implementation(libs.ktorClientJson)
-            implementation(libs.ktorClientCio)
-            implementation(libs.kotlinSerialization)
-            implementation(libs.kotlinxDateTime)
-            implementation(libs.mokoNetwork)
-            implementation(libs.mokoNetworkEngine)
-            implementation(libs.mokoNetworkErrors)
-            implementation(libs.koinCore)
-            implementation(libs.multiplatformSettings)
-        }
-        iosMain.dependencies {
-            implementation(libs.ktorClientDarwin)
-            implementation(libs.koinCore)
-        }
-    }
 }
 
 android {
     namespace = "com.widmeyertemplate"
-    compileSdk = 34
+    compileSdk = 35
+
     defaultConfig {
-        minSdk = 24
-        buildConfigField("int", "VERSION_CODE", "1")
-        buildConfigField("String", "VERSION_NAME", "\"1.0\"")
-        externalNativeBuild {
-            ndkBuild {
-                cppFlags += ""
-            }
-        }
-    }
-
-    externalNativeBuild {
-        ndkBuild {
-            path = file("src/androidMain/kotlin/com/widmeyertemplate/jni/Android.mk")
-        }
-    }
-
-    buildFeatures {
-        buildConfig = true
+        minSdk = 26
     }
 
     compileOptions {
@@ -90,12 +43,3 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
-
-/* mokoNetwork {
-    spec("serverApi") {
-        inputSpec = file("src/api/openapi.yml")
-        isInternal = false
-    }
-} */
-
-

@@ -16,24 +16,27 @@
 
 ## Скрипты автоматического внедрения и настройки ресурсов в проект
 
-### update_resources.sh
-Этот скрипт объединяет автоматическое добавление строковых и цветовых ресурсов в проект. При добавлении новой строки или нового цвета в соответствующие файлы, ресурсы автоматически копируются в нужные места в проекте.
+### Плагин Widmeyer Template
+В папке plugin располагается плагин, который может быть установлен в вашу IDE для автоматизации создания новых модулей и обновления ресурсов. Для обновления ресурсов необходимо нажать CMD/CTRL + ALT + SHIFT + P или же выбрать в меню Tools
 
 #### Строковые ресурсы
-При добавлении новой строки в `shared/resources/moko-resources/base/strings.xml`, строковые значения автоматически копируются в:
+При добавлении новой строки в `shared/resources/moko-resources/base/strings.xml`, строковые значения будут скопированы в:
 
 - `androidApp/ui/res/values/strings.xml` 
-- `shared/resources/moko-resources/{LANG}/strings.xml` (где `{LANG}` — код языка, например, `ru`, `en`)
+- `shared/resources/moko-resources/`
 
 #### Цветовые ресурсы
-При добавлении нового цвета в файл `shared/resources/moko-resources/colors/colors.xml`, цветовые значения автоматически копируются в:
+При добавлении нового цвета в файл `shared/resources/moko-resources/colors/colors.xml`, цветовые значения будут скопирвоаны в:
 
 - **shared**: `androidApp/ui/res/values/colors.xml` 
-- **android**: `androidApp/ui/Colors.kt` (включая обновление для светлого и темного режимов)
-- **iOS**: `iosApp/Resources/Colors.swift` (включая обновление для светлого и темного режимов)
+- **android**: `androidApp/ui/Colors.kt` 
+- **iOS**: `iosApp/Resources/Colors.swift`
 
-### Замечания:
-- Если для определенного языка нет строки локализации, необходимо добавить перевод в соответствующий файл, либо удалить язык из скрипта.
+#### Модули
+Для создания новых экранов можно создать новый модуль, который называется Widmeyer. Например, для создания View Model + Screen для экрана "Авторизации" будут следующие настройки:
+* Название пакета/проекта. Например, widmeyer. На выходе -> com.widmeyer.***
+* Название модуля. Например, authorization На выходе -> com.widmeyer.authorization
+* Название экрана. Например, Authorization. На выходе -> com.widmeyer.authorization.AuthorizationScreen
 
 ### rename_project.sh
 Скрипт для переименования проекта и модуля.

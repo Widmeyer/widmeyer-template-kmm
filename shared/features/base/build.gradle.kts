@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -17,23 +18,22 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.shared)
+            implementation(projects.shared.entity)
             implementation(projects.shared.resources)
-            implementation(libs.mokoMvvmCore)
-            implementation(libs.mokoMvvmFlow)
-            implementation(libs.mokoMvvmLiveData)
-            implementation(libs.ktorClient)
-            implementation(libs.ktorClientJson)
-            implementation(libs.ktorClientCio)
+
+            implementation(libs.bundles.moko.mvvm)
+            implementation(libs.bundles.ktor)
+
+            implementation(libs.kotlinSerialization)
         }
     }
 }
 
 android {
     namespace = "com.widmeyertemplate.features.base"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

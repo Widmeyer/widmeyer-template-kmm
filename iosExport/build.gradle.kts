@@ -8,26 +8,23 @@ plugins {
 
 val features = listOf(
     projects.shared,
+    projects.shared.core,
     projects.shared.entity,
+    projects.shared.network,
     projects.shared.resources,
-    projects.shared.features.splash,
-    projects.shared.features.root,
     projects.shared.features.base,
+    projects.shared.features.root,
+    projects.shared.features.splash,
+    //projects.shared.features.ui,
 )
 
 val apiLibs = listOf(
     libs.kotlinxDateTime,
     libs.kotlinSerialization,
-    libs.mokoMvvmCore,
-    libs.mokoMvvmFlow,
-    libs.mokoMvvmLiveData,
+    libs.bundles.moko.mvvm,
+    libs.bundles.moko.network,
+    libs.bundles.ktor,
     libs.mokoGraphics,
-    libs.mokoNetwork,
-    libs.mokoNetworkEngine,
-    libs.mokoNetworkErrors,
-    libs.ktorClient,
-    libs.ktorClientJson,
-    libs.ktorClientCio,
     libs.threetenabp,
     libs.koinCore,
     libs.multiplatformSettings,
@@ -75,9 +72,9 @@ kotlin {
 
 android {
     namespace = "com.widmeyertemplate"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
     }
 
     compileOptions {

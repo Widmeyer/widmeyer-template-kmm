@@ -2,14 +2,29 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
     namespace = "com.widmeyertemplate.screen.splash"
-    compileSdk = 34
+    compileSdk = 35
+
+    flavorDimensions.add(0, "jni")
+
+    productFlavors {
+        create("dev") {
+            dimension = "jni"
+            matchingFallbacks.add("dev")
+        }
+
+        create("prod") {
+            dimension = "jni"
+            matchingFallbacks.add("prod")
+        }
+    }
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
     }
 
     buildFeatures {
@@ -26,7 +41,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.shared)
+    implementation(projects.shared.core)
     implementation(projects.shared.resources)
     implementation(projects.shared.entity)
     implementation(projects.shared.features.base)
@@ -34,16 +49,13 @@ dependencies {
     implementation(projects.shared.features.root)
     implementation(projects.androidApp.ui)
 
-    implementation(libs.koinCore)
-    implementation(libs.koinAndroid)
+    implementation(libs.bundles.android)
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.koin.android)
+    implementation(libs.bundles.moko.mvvm)
     implementation(libs.mokoNetworkErrors)
-    implementation(libs.mokoMvvmCore)
-    implementation(libs.mokoMvvmFlow)
-    implementation(libs.mokoMvvmLiveData)
+    implementation(libs.kotlinSerialization)
+    implementation(libs.compose.navigation)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
+    debugImplementation(libs.compose.ui.tooling.preview)
 }

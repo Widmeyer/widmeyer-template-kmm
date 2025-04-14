@@ -6,10 +6,24 @@ plugins {
 
 android {
     namespace = "com.widmeyertemplate.ui"
-    compileSdk = 34
+    compileSdk = 35
+
+    flavorDimensions.add(0, "jni")
+
+    productFlavors {
+        create("dev") {
+            dimension = "jni"
+            matchingFallbacks.add("dev")
+        }
+
+        create("prod") {
+            dimension = "jni"
+            matchingFallbacks.add("prod")
+        }
+    }
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,22 +43,15 @@ android {
 }
 
 dependencies {
-    implementation(projects.shared)
-    implementation(projects.shared.resources)
+    implementation(projects.shared.core)
     implementation(projects.shared.entity)
+    implementation(projects.shared.resources)
     implementation(projects.shared.features.base)
 
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-    implementation(libs.activityCompose)
     implementation(libs.picasso)
-    implementation(libs.material)
 
-    implementation(libs.androidx.core.ktx)
-
-    implementation(libs.mokoNetwork)
-    implementation(libs.mokoNetworkErrors)
-    implementation(libs.mokoNetworkEngine)
+    implementation(libs.bundles.android)
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.moko.network)
+    debugImplementation(libs.compose.ui.tooling.preview)
 }
