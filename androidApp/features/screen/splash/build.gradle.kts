@@ -45,8 +45,8 @@ dependencies {
     implementation(projects.shared.resources)
     implementation(projects.shared.entity)
     implementation(projects.shared.features.base)
-    implementation(projects.shared.features.splash)
     implementation(projects.shared.features.root)
+    implementation(projects.shared.features.splash)
     implementation(projects.androidApp.ui)
 
     implementation(libs.bundles.android)

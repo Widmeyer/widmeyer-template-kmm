@@ -69,7 +69,6 @@ dependencies {
     implementation(libs.mokoNetworkErrors)
     implementation(libs.compose.navigation)
     implementation(libs.kotlinSerialization)
-    implementation(libs.compose.navigation)
 
     debugImplementation(libs.compose.ui.tooling.preview)
 }

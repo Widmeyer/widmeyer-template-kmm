@@ -47,7 +47,6 @@ fun RootApp(
     LockScreenOrientation()
     MainTheme {
         AppNavHost(navHostController)
-
         BackHandler { navHostController.handleBackNavigation() }
     }
 }

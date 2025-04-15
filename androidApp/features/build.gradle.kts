@@ -23,6 +23,5 @@ android {
 }
 
 dependencies {
-
     implementation(libs.bundles.android)
 }

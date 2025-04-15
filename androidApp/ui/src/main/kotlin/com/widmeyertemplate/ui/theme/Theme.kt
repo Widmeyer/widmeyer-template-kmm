@@ -22,7 +22,7 @@ fun MainTheme(
 
     CompositionLocalProvider(
         localColors(LocalContext.current) provides colors,
-        localTypography() provides Typography(font)
+        localTypography provides Typography(font)
     ) {
         MaterialTheme(content = content)
     }
@@ -30,23 +30,17 @@ fun MainTheme(
 
 
 private val font = FontFamily(
-    Font(
-        resId = MultiplatformResource.fonts.regular.fontResourceId,
-        weight = FontWeight.Normal
-    ),
-    Font(
-        resId = MultiplatformResource.fonts.regular.fontResourceId,
-        weight = FontWeight.Bold
-    ),
+    Font(resId = MultiplatformResource.fonts.regular.fontResourceId, weight = FontWeight.Normal),
+    Font(resId = MultiplatformResource.fonts.regular.fontResourceId, weight = FontWeight.Bold),
 )
 
+private val localTypography = compositionLocalOf { Typography(font) }
 fun localColors(context: Context) = compositionLocalOf<Colors> { Colors.Light(context) }
-fun localTypography() = compositionLocalOf { Typography(font) }
 
 object B {
     val colors: Colors
         @Composable get() = localColors(context = LocalContext.current).current
 
     val typography: Typography
-        @Composable get() = localTypography().current
+        @Composable get() = localTypography.current
 }

@@ -37,20 +37,7 @@ kotlin {
             implementation(libs.bundles.ktor)
             implementation(libs.koinCore)
             implementation(libs.multiplatformSettings)
-        }
-
-        androidMain.dependencies {
-            implementation(libs.koinCore)
-            implementation(libs.koinAndroid)
-            implementation(libs.multiplatformSettings)
-            implementation(libs.kotlinSerialization)
-
-        }
-
-        iosMain.dependencies {
-            implementation(libs.koinCore)
-            implementation(libs.multiplatformSettings)
-        }
+        }   
     }
 }
 

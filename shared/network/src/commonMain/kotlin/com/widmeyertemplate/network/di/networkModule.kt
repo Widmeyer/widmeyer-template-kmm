@@ -55,7 +55,6 @@ private fun createHttpClient(
     authorizationApi: StoreApi?,
 ): HttpClient {
     val keyValueStorage: KeyValueStorage = getKoin().get()
-    val nativeHost: NativeHost = getKoin().get()
     return HttpClient(createHttpClientEngine()) {
 
         install(Logging) {
