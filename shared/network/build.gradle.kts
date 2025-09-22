@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -9,7 +11,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = JvmTarget.JVM_18.target
             }
         }
     }
@@ -17,9 +19,9 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+        iosSimulatorArm64(),
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
             baseName = "network"
             isStatic = true
         }
@@ -44,7 +46,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.widmeyertemplate.network"
+    namespace = "com.network"
     compileSdk = 35
 
     flavorDimensions.add(0, "jni")
@@ -71,14 +73,14 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
 }
 
 mokoNetwork {
     spec("serverApi") {
-        inputSpec = file("src/commonMain/kotlin/com/widmeyertemplate/network/api/openapi.yml")
+        inputSpec = file("src/commonMain/kotlin/com/network/api/openapi.yml")
         isInternal = false
     }
 }

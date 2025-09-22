@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -8,7 +10,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = JvmTarget.JVM_18.target
             }
         }
     }
@@ -16,9 +18,9 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+        iosSimulatorArm64(),
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
             baseName = "core"
             isStatic = true
         }
@@ -32,13 +34,18 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.shared.entity)
+            implementation(projects.shared.database)
+
             implementation(libs.kotlinSerialization)
             implementation(libs.kotlinxDateTime)
             implementation(libs.koinCore)
             implementation(libs.bundles.ktor)
             implementation(libs.mokoResources)
             implementation(libs.multiplatformSettings)
+
             implementation(libs.bundles.moko.network)
+            implementation(libs.bundles.coil)
+
         }
         iosMain.dependencies {
             implementation(libs.ktorClientDarwin)
@@ -48,7 +55,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.widmeyertemplate.core"
+    namespace = "com.core"
     compileSdk = 35
 
     buildFeatures.buildConfig = true
@@ -68,7 +75,7 @@ android {
 
     externalNativeBuild {
         ndkBuild {
-            path = file("src/androidMain/kotlin/com/widmeyertemplate/core/jni/Android.mk")
+            path = file("src/androidMain/kotlin/com/core/jni/Android.mk")
         }
     }
 
@@ -79,7 +86,7 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
 }

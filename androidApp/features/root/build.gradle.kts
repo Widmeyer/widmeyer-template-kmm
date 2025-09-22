@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
@@ -32,43 +34,28 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JvmTarget.JVM_18.target
     }
 }
 
-val featureModules = listOf(
-    projects.androidApp.ui,
-    projects.androidApp.features.screen.splash
-)
-
-val sharedModules = listOf(
-    projects.shared.core,
-    projects.shared.entity,
-    projects.shared.features.base,
-    projects.shared.features.root,
-    projects.shared.features.splash
-)
-
 dependencies {
-    featureModules.forEach { module ->
-        implementation(module)
-    }
-
-    sharedModules.forEach { module ->
-        implementation(module)
-    }
+    implementation(projects.shared.core)
+    implementation(projects.shared.features.base)
+    implementation(projects.shared.features.root)
+    implementation(projects.shared.features.root.ui)
 
     implementation(libs.bundles.android)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.koin.android)
     implementation(libs.bundles.moko.mvvm)
+    implementation(libs.bundles.coil)
     implementation(libs.mokoNetworkErrors)
-    implementation(libs.compose.navigation)
     implementation(libs.kotlinSerialization)
+    implementation(libs.composeNavigation)
 
     debugImplementation(libs.compose.ui.tooling.preview)
 }

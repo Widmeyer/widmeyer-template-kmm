@@ -1,0 +1,10 @@
+package com.entity.model
+
+data class User(
+    val id: String,
+    val name: String,
+    val username: String,
+    val phoneNumber: String,
+    val birthday: String,
+)
+

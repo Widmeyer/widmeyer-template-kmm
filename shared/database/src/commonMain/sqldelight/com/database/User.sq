@@ -1,0 +1,17 @@
+CREATE TABLE User(
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    username TEXT NOT NULL,
+    phonenumber TEXT NOT NULL,
+    birthday TEXT NOT NULL
+);
+
+insert:
+    INSERT OR REPLACE INTO User(id, name, username, phonenumber, birthday)
+    VALUES (:id, :name, :username, :phonenumber, :birthday);
+
+select:
+    SELECT * FROM User;
+
+clear:
+    DELETE FROM User;

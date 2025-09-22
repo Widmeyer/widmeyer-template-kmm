@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
@@ -9,13 +11,20 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = JvmTarget.JVM_18.target
             }
         }
     }
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
+    }
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -31,7 +40,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.widmeyertemplate"
+    namespace = "com.shared"
     compileSdk = 35
 
     defaultConfig {
@@ -39,7 +48,7 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
 }

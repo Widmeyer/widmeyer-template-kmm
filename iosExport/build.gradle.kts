@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
@@ -12,18 +14,21 @@ val features = listOf(
     projects.shared.entity,
     projects.shared.network,
     projects.shared.resources,
-    projects.shared.features.base,
-    projects.shared.features.root,
+    projects.shared.database,
     projects.shared.features.splash,
+    projects.shared.features.root,
+    projects.shared.features.base,
     //projects.shared.features.ui,
 )
 
 val apiLibs = listOf(
     libs.kotlinxDateTime,
     libs.kotlinSerialization,
+    libs.bundles.koin.compose,
     libs.bundles.moko.mvvm,
     libs.bundles.moko.network,
     libs.bundles.ktor,
+    libs.bundles.coil,
     libs.mokoGraphics,
     libs.threetenabp,
     libs.koinCore,
@@ -34,14 +39,21 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = JvmTarget.JVM_18.target
             }
         }
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "iosExport"
+            isStatic = true
+        }
+    }
 
     cocoapods {
         summary = "Multiplatform Library for iOS App"
@@ -71,15 +83,15 @@ kotlin {
 }
 
 android {
-    namespace = "com.widmeyertemplate"
+    namespace = "com.posledam"
     compileSdk = 35
     defaultConfig {
         minSdk = 26
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
 }
 

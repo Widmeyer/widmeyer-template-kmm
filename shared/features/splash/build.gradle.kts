@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -7,7 +9,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = JvmTarget.JVM_18.target
             }
         }
     }
@@ -44,7 +46,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.widmeyertemplate.features.splash"
+    namespace = "com.features.splash"
     compileSdk = 35
     defaultConfig {
         minSdk = 26
@@ -65,7 +67,7 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
 }

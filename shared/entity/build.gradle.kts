@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -8,13 +10,21 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = JvmTarget.JVM_18.target
             }
         }
     }
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "entity"
+            isStatic = true
+        }
+    }
 
     sourceSets {
         commonMain.dependencies {
@@ -26,13 +36,13 @@ kotlin {
 }
 
 android {
-    namespace = "com.widmeyertemplate.entity"
-    compileSdk = 34
+    namespace = "com.entity"
+    compileSdk = 35
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
 }

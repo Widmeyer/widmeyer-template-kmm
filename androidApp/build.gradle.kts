@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -54,23 +56,24 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JvmTarget.JVM_18.target
     }
 }
 
 dependencies {
+    implementation(projects.shared.features.root)
     implementation(projects.shared.core)
     implementation(projects.shared.resources)
     implementation(projects.shared.entity)
     implementation(projects.androidApp.features.root)
-    implementation(projects.androidApp.features.screen.splash)
 
     implementation(libs.bundles.android)
     implementation(libs.bundles.compose)
+    implementation(libs.bundles.coil)
 
     implementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.tooling.preview)
