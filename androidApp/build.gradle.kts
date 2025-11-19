@@ -50,11 +50,6 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
-
-    buildFeatures {
-        compose = true
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_18
         targetCompatibility = JavaVersion.VERSION_18

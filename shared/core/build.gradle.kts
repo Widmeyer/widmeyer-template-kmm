@@ -34,7 +34,6 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.shared.entity)
-            implementation(projects.shared.database)
 
             implementation(libs.kotlinSerialization)
             implementation(libs.kotlinxDateTime)

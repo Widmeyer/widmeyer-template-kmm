@@ -1,11 +1,9 @@
 package com.features.root.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navOptions
 import com.features.base.domain.enum.Screen
 import com.features.root.ui.components.AppNavHost
 import com.features.root.ui.components.handleBackNavigation
@@ -14,40 +12,50 @@ import com.features.ui.extension.BackHandler
 import com.features.ui.extension.LockScreenOrientation
 import com.features.ui.theme.MainTheme
 import com.root.presentation.RootViewModel
-import com.root.presentation.model.RootEvents
+import com.root.presentation.model.RootEffect
+import com.root.presentation.model.RootEvent
+
 
 @Composable
 fun RootApp(
     viewModel: RootViewModel,
     navHostController: NavHostController = rememberNavController(),
 ) {
-    val basicNavOption = navOptions {
-        popUpTo(Screen.SPLASH.name) {
-            inclusive = true
-        }
-    }
-
-    val state by viewModel.state.collectAsState()
-
     LockScreenOrientation()
 
     MainTheme {
         AppNavHost(navHostController)
-
-        BackHandler { navHostController.handleBackNavigation() }
+        BackHandler { viewModel.onEvent(RootEvent.OnClickBack) }
     }
 
-    state.screen?.let {
-        val isClearStack = state.isClearStack
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is RootEffect.Navigate -> {
+                    navHostController.navigate(effect.route) {
+                        popUpTo(Screen.SPLASH.name) {
+                            inclusive = true
+                        }
+                    }
+                }
 
-        with(navHostController) {
-            if (isClearStack) resetStackAndNavigateTo(it.name)
-            else navigate(it.name, basicNavOption)
+                is RootEffect.NavigateWithClearStack -> {
+                    navHostController.resetStackAndNavigateTo(effect.route)
+                }
+
+                is RootEffect.ReplaceScreen -> {
+                    navHostController.popBackStack()
+                    navHostController.navigate(effect.route) {
+                        popUpTo(Screen.SPLASH.name) {
+                            inclusive = true
+                        }
+                    }
+                }
+
+                RootEffect.PopBackStack -> {
+                    navHostController.handleBackNavigation()
+                }
+            }
         }
-    }
-
-    if (state.isPopScreen) {
-        navHostController.handleBackNavigation()
-        viewModel.onEvent(RootEvents.ClearIsPop)
     }
 }

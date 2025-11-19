@@ -32,6 +32,7 @@ kotlin {
             implementation(libs.sql.delight.driver)
         }
         commonMain.dependencies {
+            implementation(projects.shared.core)
             implementation(projects.shared.resources)
             implementation(projects.shared.entity)
             implementation(libs.kotlinSerialization)
@@ -46,12 +47,28 @@ kotlin {
     }
 }
 
+
 android {
     namespace = "com.database"
     compileSdk = 35
     defaultConfig {
         minSdk = 26
     }
+
+    flavorDimensions.add(0, "jni")
+
+    productFlavors {
+        create("dev") {
+            dimension = "jni"
+            matchingFallbacks.add("dev")
+        }
+
+        create("prod") {
+            dimension = "jni"
+            matchingFallbacks.add("prod")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_18
         targetCompatibility = JavaVersion.VERSION_18

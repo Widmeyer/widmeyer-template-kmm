@@ -1,17 +1,11 @@
 package com.network.di
 
-import com.core.data.infrastructure.KeyValueStorage
 import com.core.data.utils.NativeHost
-import com.entity.DeadTokenException
 import com.network.data.utils.CustomExceptionParser
-import com.network.domain.model.CustomResponseException
 import dev.icerock.moko.network.createHttpClientEngine
 import dev.icerock.moko.network.exceptionfactory.HttpExceptionFactory
 import dev.icerock.moko.network.exceptionfactory.parser.ValidationExceptionParser
-import dev.icerock.moko.network.generated.apis.UserApi
 import dev.icerock.moko.network.plugins.ExceptionPlugin
-import dev.icerock.moko.network.plugins.RefreshTokenPlugin
-import dev.icerock.moko.network.plugins.TokenPlugin
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
@@ -47,9 +41,47 @@ val networkModule: Module = module {
              json = get()
          )
      }*/
+    // OR
+
+    /*
+    single<SupabaseClient> {
+        val url: String by lazy { getKoin().get<NativeHost>().getUrl() }
+        val key: String by lazy { getKoin().get<NativeHost>().getKey() }
+
+        createSupabaseClient(
+            supabaseUrl = url,
+            supabaseKey = key
+        ) {
+            install(Postgrest) {
+                defaultSchema = "public"
+                propertyConversionMethod = PropertyConversionMethod.CAMEL_CASE_TO_SNAKE_CASE
+            }
+            install(Auth) {
+                alwaysAutoRefresh = true
+                enableLifecycleCallbacks = true
+            }
+        }
+    }
+     */
 }
 
-private fun createHttpClient(
+private fun createHttpClient(json: Json): HttpClient = HttpClient(createHttpClientEngine()) {
+    install(Logging) {
+        level = LogLevel.ALL
+        logger = Logger.DEFAULT
+    }
+    install(ExceptionPlugin) {
+        exceptionFactory = HttpExceptionFactory(
+            defaultParser = CustomExceptionParser(json),
+            customParsers = mapOf(
+                HttpStatusCode.UnprocessableEntity.value to ValidationExceptionParser(json)
+            )
+        )
+    }
+    expectSuccess = false
+}
+
+/*private fun createHttpClient(
     json: Json,
     authorizationApi: UserApi?, // TODO: AuthorizationApi
 ): HttpClient {
@@ -80,7 +112,7 @@ private fun createHttpClient(
                 }
                 updateTokenHandler = {
                     try {
-                        /* val response = authorizationApi.apiAuthRefreshPostResponse(
+                        *//* val response = authorizationApi.apiAuthRefreshPostResponse(
                              userRefreshTokenPairBody = UserRefreshTokenPairBody(
                                  accessToken = keyValueStorage.accessToken,
                                  refreshToken = keyValueStorage.refreshToken,
@@ -91,7 +123,7 @@ private fun createHttpClient(
                          keyValueStorage.accessToken = body.accessToken
                          keyValueStorage.refreshToken = body.refreshToken
 
-                         response.httpResponse.status == HttpStatusCode.OK*/
+                         response.httpResponse.status == HttpStatusCode.OK*//*
                         true
                     } catch (e: CustomResponseException) {
                         e.printStackTrace()
@@ -124,4 +156,4 @@ private fun createHttpClient(
             }
         }
     }
-}
+}*/

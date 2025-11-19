@@ -1,94 +1,99 @@
 package com.features.ui.dialog
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.features.ui.Res
-import com.features.ui.ic_back
+import coil3.compose.LocalPlatformContext
+import com.core.data.utils.globalApplicationContext
+import com.core.data.utils.localize
+import com.features.base.domain.model.Error
 import com.features.ui.theme.MainTheme
-import org.jetbrains.compose.resources.painterResource
+import com.resources.MultiplatformResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DialogError(
     title: String,
-    description: String,
+    error: Error,
     onClose: () -> Unit,
+    onNavigateToAuthorization: () -> Unit = {},
 ) {
+    val message = remember {
+        when (error) {
+            Error.CONNECTION -> MultiplatformResource.strings.appName.localize()
+            Error.TOKEN -> MultiplatformResource.strings.appName.localize()
+            Error.OTHER -> error.message
+                ?: MultiplatformResource.strings.appName.localize()
+        }
+    }
+
     Dialog(
-        onDismissRequest = { onClose() },
+        onDismissRequest = if (error == Error.TOKEN) onNavigateToAuthorization else onClose,
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Box(
             modifier = Modifier
-                .padding(horizontal = 36.dp, vertical = 16.dp)
+                .padding(horizontal = 36.dp, vertical = 8.dp)
                 .fillMaxWidth()
-                .background(MainTheme.colors.primary, shape = RoundedCornerShape(16.dp))
-                .border(8.dp, MainTheme.colors.white, RoundedCornerShape(16.dp))
+                .background(MainTheme.colors.white, shape = RoundedCornerShape(16.dp))
         ) {
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 16.dp)
-                    .align(Alignment.Center),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.Start
             ) {
-                Image(
-                    painter = painterResource(Res.drawable.ic_back),
-                    modifier = Modifier
-                        .size(48.dp),
-                    contentDescription = null,
-                )
-
                 Text(
+                    modifier = Modifier.padding(bottom = 12.dp),
                     text = title,
                     style = MainTheme.typography.dialog.title,
-                    color = MainTheme.colors.thirdly,
-                    modifier = Modifier.padding(bottom = 12.dp),
-                    textAlign = TextAlign.Center
+                    color = MainTheme.colors.black,
+                    textAlign = TextAlign.Start
                 )
 
                 Text(
-                    text = description,
+                    modifier = Modifier.padding(bottom = 24.dp),
+                    text = message,
                     style = MainTheme.typography.dialog.main,
-                    color = MainTheme.colors.black.copy(alpha = 0.5f),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
+                    color = MainTheme.colors.black,
+                    textAlign = TextAlign.Justify
                 )
-            }
-        }
 
-        Box(
-            modifier = Modifier
-                .padding(start = 24.dp)
-                .clip(RoundedCornerShape(100.dp))
-                .size(42.dp)
-                .background(MainTheme.colors.error)
-                .clickable(onClick = onClose),
-        ) {
-            Icon(
-                modifier = Modifier,
-                painter = painterResource(Res.drawable.ic_back),
-                tint = MainTheme.colors.white,
-                contentDescription = null
-            )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        contentPadding = PaddingValues(),
+                        onClick = if (error == Error.TOKEN) onNavigateToAuthorization else onClose
+                    ) {
+                        Text(
+                            text = MultiplatformResource.strings.appName.localize(),
+                            style = MainTheme.typography.dialog.buttonText,
+                            color = MainTheme.colors.black,
+                            textAlign = TextAlign.End,
+                            modifier = Modifier
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -97,12 +102,13 @@ fun DialogError(
 @Preview
 @Composable
 internal fun DialogError_Preview() {
+    globalApplicationContext = LocalPlatformContext.current
+
     MainTheme {
         DialogError(
             title = "Ой споткнулся",
-            description = "Описание в две строки, Описание в две строки"
-        ) {
-
-        }
+            error = Error.CONNECTION,
+            onClose = {}
+        )
     }
 }

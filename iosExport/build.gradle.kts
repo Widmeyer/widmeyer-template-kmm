@@ -83,7 +83,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.posledam"
+    namespace = "com.widmeyertemplate"
     compileSdk = 35
     defaultConfig {
         minSdk = 26
