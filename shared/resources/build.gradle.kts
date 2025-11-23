@@ -1,20 +1,14 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeMultiplatform)
-    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = JvmTarget.JVM_18.target
-            }
-        }
+    androidTarget()
+    kotlin {
+        jvmToolchain(21)
     }
 
     listOf(
@@ -30,7 +24,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.mokoResources)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -43,19 +36,11 @@ kotlin {
 
 android {
     namespace = "com.resources"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         minSdk = 26
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
-    }
-}
 
-multiplatformResources {
-    resourcesPackage = "com.resources"
-    resourcesClassName = "MultiplatformResource"
 }
 
 compose.resources {

@@ -12,14 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
-import coil3.compose.LocalPlatformContext
-import com.core.data.utils.globalApplicationContext
-import com.core.data.utils.localize
 import com.features.ui.Res
+import com.features.ui.appName
 import com.features.ui.ic_back
 import com.features.ui.theme.MainTheme
-import com.resources.MultiplatformResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -40,7 +38,7 @@ internal fun SplashScreenContent() {
             )
 
             Text(
-                text = MultiplatformResource.strings.appName.localize(),
+                text = stringResource(Res.string.appName),
                 style = MainTheme.typography.main.title,
                 color = MainTheme.colors.secondary,
             )
@@ -51,8 +49,6 @@ internal fun SplashScreenContent() {
 @Composable
 @Preview
 internal fun SplashScreenContent_Preview() {
-    globalApplicationContext = LocalPlatformContext.current
-
     MainTheme {
         SplashScreenContent()
     }

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -8,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.widmeyertemplate.android"
-    compileSdk = 35
+    compileSdk = 36
 
     flavorDimensions.add(0, "jni")
 
@@ -42,7 +40,7 @@ android {
     }
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -50,12 +48,8 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
-    }
-    kotlinOptions {
-        jvmTarget = JvmTarget.JVM_18.target
+    kotlin {
+        jvmToolchain(21)
     }
 }
 

@@ -1,20 +1,37 @@
 package com.network.di
 
+import com.core.data.infrastructure.KeyValueStorage
 import com.core.data.utils.NativeHost
-import com.network.data.utils.CustomExceptionParser
-import dev.icerock.moko.network.createHttpClientEngine
-import dev.icerock.moko.network.exceptionfactory.HttpExceptionFactory
-import dev.icerock.moko.network.exceptionfactory.parser.ValidationExceptionParser
-import dev.icerock.moko.network.plugins.ExceptionPlugin
+import com.network.api.apis.PetApi
+import com.network.api.apis.StoreApi
+import com.network.api.apis.UserApi
+import com.network.data.exception.CustomExceptionParser
+import com.network.data.exception.CustomResponseException
+import com.network.data.exception.DeadTokenException
+import com.network.data.exception.ExceptionPlugin
+import com.network.data.exception.HttpExceptionFactory
+import com.network.data.exception.ValidationExceptionParser
+import com.network.data.plugin.createHttpClientEngine
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.auth.Auth as SupabaseAuth
+import io.github.jan.supabase.postgrest.PropertyConversionMethod
 import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 
@@ -22,31 +39,48 @@ val networkModule: Module = module {
     val baseUrl: String by lazy { getKoin().get<NativeHost>().getUrl() }
 
     single<Json> { Json { ignoreUnknownKeys = true } }
-    singleOf(::createHttpClient)
+    single<HttpClientConfig<*>.() -> Unit> {
+        createHttpClientConfig(
+            authApi = get(),
+            json = get(),
+        )
+    }
 
-    /* single<ApplicationInfoApi> {
-         ApplicationInfoApi(
-             basePath = baseUrl,
-             httpClient = get(),
-             json = get()
+    single<UserApi> {
+        val httpClient = HttpClient()
+
+        UserApi(
+            baseUrl = baseUrl,
+            httpClientConfig = createHttpClientConfig(
+                authApi = null,
+                json = get(),
+            ),
+            httpClientEngine = httpClient.engine
+        )
+    }
+    single<PetApi> {
+         val httpClient: HttpClient = get()
+
+         PetApi(
+             baseUrl = baseUrl,
+             httpClientConfig = get(),
+             httpClientEngine = httpClient.engine
          )
      }
-     single<AuthorizationApi> {
-         AuthorizationApi(
-             basePath = baseUrl,
-             httpClient = createHttpClient(
-                 json = get(),
-                 authorizationApi = null
-             ),
-             json = get()
-         )
-     }*/
-    // OR
+    single<StoreApi> {
+        val httpClient: HttpClient = get()
 
-    /*
+        StoreApi(
+            baseUrl = baseUrl,
+            httpClientConfig = get(),
+            httpClientEngine = httpClient.engine
+        )
+    }
+
+
     single<SupabaseClient> {
         val url: String by lazy { getKoin().get<NativeHost>().getUrl() }
-        val key: String by lazy { getKoin().get<NativeHost>().getKey() }
+        val key: String by lazy { "" }  // TODO: KEY SUPABASE or remove
 
         createSupabaseClient(
             supabaseUrl = url,
@@ -56,20 +90,32 @@ val networkModule: Module = module {
                 defaultSchema = "public"
                 propertyConversionMethod = PropertyConversionMethod.CAMEL_CASE_TO_SNAKE_CASE
             }
-            install(Auth) {
+            install(SupabaseAuth) {
                 alwaysAutoRefresh = true
                 enableLifecycleCallbacks = true
             }
         }
     }
-     */
+
 }
 
-private fun createHttpClient(json: Json): HttpClient = HttpClient(createHttpClientEngine()) {
-    install(Logging) {
-        level = LogLevel.ALL
-        logger = Logger.DEFAULT
+private fun createHttpClientConfig(
+    authApi: UserApi? = null,
+    json: Json,
+): HttpClientConfig<*>.() -> Unit = {
+    val keyValueStorage: KeyValueStorage = getKoin().get()
+
+    createHttpClientEngine {
+        expectSuccess = true
     }
+
+    install(ContentNegotiation) {
+        json(
+            json = Json { ignoreUnknownKeys = true },
+            contentType = ContentType.Any
+        )
+    }
+
     install(ExceptionPlugin) {
         exceptionFactory = HttpExceptionFactory(
             defaultParser = CustomExceptionParser(json),
@@ -78,82 +124,44 @@ private fun createHttpClient(json: Json): HttpClient = HttpClient(createHttpClie
             )
         )
     }
-    expectSuccess = false
-}
 
-/*private fun createHttpClient(
-    json: Json,
-    authorizationApi: UserApi?, // TODO: AuthorizationApi
-): HttpClient {
-    val keyValueStorage: KeyValueStorage = getKoin().get()
-    val nativeHost: NativeHost = getKoin().get()
-    return HttpClient(createHttpClientEngine()) {
+    install(Logging) {
+        level = LogLevel.ALL
+        logger = Logger.DEFAULT
+    }
 
-        install(Logging) {
-            level = LogLevel.ALL
-            logger = Logger.DEFAULT
-        }
+    if (authApi != null && keyValueStorage.isHaveTokens()) {
+        install(Auth) {
+            bearer {
+                loadTokens {
+                    val accessToken = keyValueStorage.accessToken
+                    val refreshToken = keyValueStorage.refreshToken
 
-        install(ExceptionPlugin) {
-            exceptionFactory = HttpExceptionFactory(
-                defaultParser = CustomExceptionParser(json),
-                customParsers = mapOf(
-                    HttpStatusCode.UnprocessableEntity.value to ValidationExceptionParser(json)
-                )
-            )
-        }
-
-        expectSuccess = false
-
-        if (authorizationApi != null) {
-            install(RefreshTokenPlugin) {
-                isCredentialsActual = { request ->
-                    request.headers["Authorization"] == keyValueStorage.accessToken?.let { "Bearer $it" }
+                    BearerTokens(accessToken.orEmpty(), refreshToken.orEmpty())
                 }
-                updateTokenHandler = {
+                refreshTokens {
                     try {
-                        *//* val response = authorizationApi.apiAuthRefreshPostResponse(
-                             userRefreshTokenPairBody = UserRefreshTokenPairBody(
-                                 accessToken = keyValueStorage.accessToken,
-                                 refreshToken = keyValueStorage.refreshToken,
-                             )
-                         )
-
-                         val body = response.body()
-                         keyValueStorage.accessToken = body.accessToken
-                         keyValueStorage.refreshToken = body.refreshToken
-
-                         response.httpResponse.status == HttpStatusCode.OK*//*
-                        true
+                       /* val refreshToken = keyValueStorage.refreshToken
+                        val result =
+                            authApi.doRefresh(refresh = Refresh(refreshToken))
+                                .decode<TokenResponse>().result
+                        keyValueStorage.accessToken = result?.accessToken
+                        keyValueStorage.refreshToken = result?.refreshToken
+                        result?.let {
+                            BearerTokens(it.accessToken!!, it.refreshToken!!)
+                        }*/
+                        BearerTokens("", "")
                     } catch (e: CustomResponseException) {
-                        e.printStackTrace()
-
-                        keyValueStorage.accessToken = null
-                        keyValueStorage.refreshToken = null
-
-                        throw DeadTokenException(
-                            message = e.responseMessage,
-                            cause = e
-                        )
-                    } catch (exc: Exception) {
-                        exc.printStackTrace()
-
-                        keyValueStorage.accessToken = null
-                        keyValueStorage.refreshToken = null
-
-                        throw DeadTokenException(
-                            message = exc.message.orEmpty(),
-                            cause = exc
-                        )
+                        if (e.isUnauthorized) {
+                            keyValueStorage.clearTokens()
+                            throw DeadTokenException(message = e.message)
+                        }
+                        throw e
+                    } catch (e: Exception) {
+                        throw e
                     }
-                }
-            }
-            install(TokenPlugin) {
-                tokenHeaderName = "Authorization"
-                tokenProvider = TokenPlugin.TokenProvider {
-                    keyValueStorage.accessToken?.let { "Bearer $it" }
                 }
             }
         }
     }
-}*/
+}

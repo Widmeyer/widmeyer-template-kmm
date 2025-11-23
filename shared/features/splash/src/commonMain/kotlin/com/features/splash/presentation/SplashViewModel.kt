@@ -1,12 +1,12 @@
 package com.features.splash.presentation
 
+import androidx.lifecycle.viewModelScope
 import com.features.base.presentation.model.BaseViewModel
 import com.features.splash.domain.SplashRepository
 import com.features.splash.presentation.model.SplashEffect
 import com.features.splash.presentation.model.SplashEvent
 import com.features.splash.presentation.model.SplashState
 import kotlinx.coroutines.launch
-
 
 class SplashViewModel(
     private val repository: SplashRepository,

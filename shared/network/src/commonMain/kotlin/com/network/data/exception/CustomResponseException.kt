@@ -1,6 +1,5 @@
-package com.network.domain.model
+package com.network.data.exception
 
-import dev.icerock.moko.network.exceptions.ResponseException
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.statement.HttpResponse
 
@@ -8,8 +7,8 @@ class CustomResponseException(
     request: HttpRequest,
     response: HttpResponse,
     responseMessage: String,
-    val responseTitle: String,
-    val responseStatus: Int,
+    val responseBody: String?,
+    val responseStatus: Int = 0,
 ) : ResponseException(request, response, responseMessage) {
     @Suppress("MagicNumber")
     fun isServerError(): Boolean {

@@ -19,12 +19,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import coil3.compose.LocalPlatformContext
-import com.core.data.utils.globalApplicationContext
-import com.core.data.utils.localize
 import com.features.base.domain.model.Error
+import com.features.ui.Res
+import com.features.ui.appName
 import com.features.ui.theme.MainTheme
-import com.resources.MultiplatformResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -34,15 +33,6 @@ fun DialogError(
     onClose: () -> Unit,
     onNavigateToAuthorization: () -> Unit = {},
 ) {
-    val message = remember {
-        when (error) {
-            Error.CONNECTION -> MultiplatformResource.strings.appName.localize()
-            Error.TOKEN -> MultiplatformResource.strings.appName.localize()
-            Error.OTHER -> error.message
-                ?: MultiplatformResource.strings.appName.localize()
-        }
-    }
-
     Dialog(
         onDismissRequest = if (error == Error.TOKEN) onNavigateToAuthorization else onClose,
         properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -68,7 +58,11 @@ fun DialogError(
 
                 Text(
                     modifier = Modifier.padding(bottom = 24.dp),
-                    text = message,
+                    text = when (error) {
+                        Error.CONNECTION -> stringResource(Res.string.appName)
+                        Error.TOKEN -> stringResource(Res.string.appName)
+                        Error.OTHER -> error.message ?: stringResource(Res.string.appName)
+                    },
                     style = MainTheme.typography.dialog.main,
                     color = MainTheme.colors.black,
                     textAlign = TextAlign.Justify
@@ -85,7 +79,7 @@ fun DialogError(
                         onClick = if (error == Error.TOKEN) onNavigateToAuthorization else onClose
                     ) {
                         Text(
-                            text = MultiplatformResource.strings.appName.localize(),
+                            text = stringResource(Res.string.appName),
                             style = MainTheme.typography.dialog.buttonText,
                             color = MainTheme.colors.black,
                             textAlign = TextAlign.End,
@@ -102,8 +96,6 @@ fun DialogError(
 @Preview
 @Composable
 internal fun DialogError_Preview() {
-    globalApplicationContext = LocalPlatformContext.current
-
     MainTheme {
         DialogError(
             title = "Ой споткнулся",
