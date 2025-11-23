@@ -5,10 +5,12 @@ on:
     branches:
       - mobile
       - mobile-prod
+      - master
   pull_request:
     branches:
       - mobile
       - mobile-prod
+      - master
 
 jobs:
   build:
