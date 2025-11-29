@@ -23,6 +23,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.shared.core)
             implementation(projects.shared.entity)
             implementation(projects.shared.resources)
 
@@ -37,8 +38,22 @@ kotlin {
 android {
     namespace = "com.features.base"
     compileSdk = 36
+
     defaultConfig {
         minSdk = 26
     }
 
+    flavorDimensions.add(0, "jni")
+
+    productFlavors {
+        create("dev") {
+            dimension = "jni"
+            matchingFallbacks.add("dev")
+        }
+
+        create("prod") {
+            dimension = "jni"
+            matchingFallbacks.add("prod")
+        }
+    }
 }

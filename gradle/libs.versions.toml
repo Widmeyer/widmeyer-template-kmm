@@ -2,7 +2,8 @@
 agp = "8.11.2"
 kotlin = "2.2.0"
 coil = "3.3.0"
-compose = "1.8.2"
+compose = "1.9.5"
+compose-resource = "1.9.3"
 compose-plugin = "1.8.1"
 compose-material3 = "1.3.2"
 compose-swipeToPullRefresh = "1.0.0"
@@ -87,6 +88,7 @@ compose-foundation = { module = "androidx.compose.foundation:foundation", versio
 composeNavigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 compose-blur = { module = "dev.chrisbanes.haze:haze", version.ref = "composeBlur" }
 compose-blur-materials = { module = "dev.chrisbanes.haze:haze-materials", version.ref = "composeBlur" }
+compose-resource = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-resource" }
 
 # lifecycle
 lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle-viewmodel" }

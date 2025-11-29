@@ -94,14 +94,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
-
 }
 
 dependencies {
     debugImplementation(compose.uiTooling)
-}
-
-compose.resources {
-    publicResClass = false
 }

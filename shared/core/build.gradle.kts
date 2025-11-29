@@ -35,6 +35,7 @@ kotlin {
             implementation(libs.koinCore)
             implementation(libs.bundles.ktor)
             implementation(libs.multiplatformSettings)
+            implementation(libs.compose.resource)
             implementation(libs.bundles.coil)
 
         }

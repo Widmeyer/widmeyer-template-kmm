@@ -22,9 +22,11 @@ val apiLibs = listOf(
     libs.kotlinSerialization,
     libs.bundles.koin.compose,
     libs.bundles.ktor,
+    libs.bundles.viewmodel,
     libs.bundles.coil,
     libs.threetenabp,
     libs.koinCore,
+    libs.compose.resource,
     libs.multiplatformSettings,
 )
 
@@ -47,11 +49,13 @@ kotlin {
         ios.deploymentTarget = "15.0"
         podfile = project.file("../iosApp/Podfile")
 
-        framework {
-            baseName = "iosExport"
+        targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+            framework {
+                baseName = "iosExport"
+                isStatic = true
 
-            features.forEach(::export)
-            apiLibs.forEach(::export)
+                freeCompilerArgs += listOf("-linker-option", "-lsqlite3")
+            }
         }
     }
 
